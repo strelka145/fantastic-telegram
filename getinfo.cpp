@@ -24,6 +24,7 @@ std::string start_com(std::string cmd){
 }
 
 void get_info::get_doi(std::string input_url){
+  //Elsevier is evil and won't let me simply curl to get meta data.So I set the UA to firefox.
   std::string cmd = "curl -s -L -A \"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0\" \""+input_url+"\"",line_;
   std::cmatch regex_temp;
   std::smatch match;
@@ -43,10 +44,16 @@ void get_info::get_from_doi(std::string input_doi){
   std::string doi_json,line;
   std::cmatch regex_temp;
   doi_json=start_com("curl -s -L \"https://api.crossref.org/works/"+doi+"\"");
-  Document paper_info;
   paper_info.Parse(doi_json.c_str());
+}
 
-  //get abstract
+void get_info::get_url(){
+  if (paper_info["message"].HasMember("URL")){
+     url=paper_info["message"]["URL"].GetString();
+  }
+}
+
+void get_info::get_abstract(){
   if (paper_info["message"].HasMember("abstract")){
      abstract=paper_info["message"]["abstract"].GetString();
   }else{
@@ -60,57 +67,63 @@ void get_info::get_from_doi(std::string input_doi){
       }
     }
   }
+}
 
-  //get URL
-  if (paper_info["message"].HasMember("URL")){
-     url=paper_info["message"]["URL"].GetString();
-  }
 
-  //get title
+void get_info::get_title(){
   if (paper_info["message"].HasMember("title")){
     Value& title_list = paper_info["message"]["title"];
     title=title_list[title_list.Size()-1].GetString();
   }
+}
 
-  //get date
+void get_info::get_date(){
   if (paper_info["message"].HasMember("published")&&paper_info["message"]["published"].HasMember("date-parts")){
     Value& date_list = paper_info["message"]["published"]["date-parts"];
     year =date_list[date_list.Size()-1][0].GetInt();
     if(date_list[date_list.Size()-1].Size()>1)month=date_list[date_list.Size()-1][1].GetInt();
     if(date_list[date_list.Size()-1].Size()>2)day  =date_list[date_list.Size()-1][2].GetInt();
   }
+}
 
-  //get journal
+void get_info::get_journal(){
   if (paper_info["message"].HasMember("container-title")){
     Value& container_title_list = paper_info["message"]["container-title"];
     if(container_title_list.Size()>0){
       journal=container_title_list[container_title_list.Size()-1].GetString();
     }
   }
+}
 
-  //get publisher
+void get_info::get_publisher(){
   if (paper_info["message"].HasMember("publisher")){
      publisher=paper_info["message"]["publisher"].GetString();
   }
+}
 
-  //get reference list
+void get_info::get_reference(){
   if (paper_info["message"].HasMember("reference")){
      Value& reference_list = paper_info["message"]["reference"];
      for(int i=0;i<reference_list.Size();i++){
        if(reference_list[i].HasMember("DOI"))reference.push_back(reference_list[i]["DOI"].GetString());
      }
   }
+}
 
-
-  //get author
+void get_info::get_author(){
   if (paper_info["message"].HasMember("author")){
      Value& author_list = paper_info["message"]["author"];
      for(int i=0;i<author_list.Size();i++){
-       author.push_back(author_list[i]["given"].GetString()+std::string(" ")+author_list[i]["family"].GetString());
+       author_given_name.push_back(author_list[i]["given"].GetString());
+       author_family_name.push_back(author_list[i]["family"].GetString());
        if(author_list[i]["sequence"].GetString()=="first"){
          first=author_list[i]["given"].GetString()+std::string(" ")+author_list[i]["family"].GetString();
        }
      }
   }
+}
 
+std::string get_info::get_citation(){
+  std::string return_citation="";
+  
 }

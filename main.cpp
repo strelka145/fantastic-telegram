@@ -12,20 +12,7 @@
 #define OPTSTRING "u::i::tymdjpc:wafr"
 
 int main(int argc, char* argv[]){
-  /*
-  TODO:
-  - get URL
-  - get doi
-  - get abstract
-  - get title
-  - get authors
-  - get date (year,month,day)
-  - get journal name
-  - get publisher name
-  - get Citation Formatte
 
-  - get citation list
-  */
   struct std::vector<option_arg> option_list= {
       {"url",       2,      NULL,         'u',      "-u [argument] or --url=[argument] to obtain the paper information of the specified URL. (If no argument is specified, the URL obtained from DOI is displayed.)"},
       {"doi",       2,      NULL,         'i',      "-i [argument] or --doi=[argument] to obtain the paper information of the specified DOI. (If no argument is specified, the DOI obtained from URL is displayed.)"},
@@ -88,43 +75,54 @@ int main(int argc, char* argv[]){
   for(char print_option : output_list){
     switch (print_option) {
       case 'u':
+        paper.get_url();
         std::cout << paper.url << '\n';
         break;
       case 'i':
         std::cout << paper.doi << '\n';
         break;
       case 'a':
+        paper.get_abstract();
         std::cout << paper.abstract << '\n';
         break;
       case 'f':
+        paper.get_author();
         std::cout << paper.first << '\n';
         break;
       case 'w':
-        for(std::string author:paper.author){
-          std::cout << author << '\n';
+        paper.get_author();
+        for(int i=0;i<paper.author_given_name.size();i++){
+          std::cout << paper.author_given_name[i]<<" "<<paper.author_family_name[i] << '\n';
         }
         break;
       case 't':
+        paper.get_title();
         std::cout << paper.title << '\n';
         break;
       case 'y':
+        paper.get_date();
         std::cout << paper.year << '\n';
         break;
       case 'm':
+        paper.get_date();
         std::cout << paper.month << '\n';
         break;
       case 'd':
+        paper.get_date();
         std::cout << paper.day << '\n';
         break;
       case 'j':
+        paper.get_journal();
         std::cout << paper.journal << '\n';
         break;
       case 'p':
+        paper.get_publisher();
         std::cout << paper.publisher << '\n';
         break;
       case 'c':
         break;
       case 'r':
+        paper.get_reference();
         for(std::string reference:paper.reference){
           std::cout << reference << '\n';
         }

@@ -2,6 +2,7 @@
 #define GET_INFO
 #include <string>
 #include <vector>
+#include "headers/include/rapidjson/document.h"
 struct get_info
 {
     std::string url;
@@ -15,14 +16,26 @@ struct get_info
     std::string publisher;
     std::string first;
     //std::string citation;
-    std::vector<std::string> author;
+    std::vector<std::string> author_given_name;
+    std::vector<std::string> author_family_name;
     std::vector<std::string> reference;
 
     void get_doi(std::string input_url);
+    void get_url();
+    void get_abstract();
+    void get_title();
+    void get_date();
+    void get_journal();
+    void get_publisher();
+    void get_author();
+    void get_reference();
     void get_from_doi(std::string input_doi);
+    std::string get_citation();
 
     private:
+      Document paper_info;
       std::string html;
+
 
 };
 
