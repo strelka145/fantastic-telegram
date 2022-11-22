@@ -35,8 +35,6 @@ struct get_info
     private:
       Document paper_info;
       std::string html;
-
-
 };
 
 struct option_arg {
