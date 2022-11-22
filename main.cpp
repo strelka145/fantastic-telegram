@@ -120,6 +120,8 @@ int main(int argc, char* argv[]){
         std::cout << paper.publisher << '\n';
         break;
       case 'c':
+        paper.get_citation();
+        std::cout << paper.citation << '\n';
         break;
       case 'r':
         paper.get_reference();

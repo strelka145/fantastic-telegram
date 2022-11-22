@@ -143,6 +143,7 @@ void get_info::get_author(){
   }
 }
 
-std::string get_info::get_citation(){
-  //curl -LH "Accept: text/x-bibliography; style=apa" https://doi.org/10.1126/science.169.3946.635
+void get_info::get_citation(std::string style){
+  get_url();
+  citation=http_get(url,"Accept: text/x-bibliography; style="+style);
 }

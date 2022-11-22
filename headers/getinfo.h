@@ -15,7 +15,7 @@ struct get_info
     std::string journal;
     std::string publisher;
     std::string first;
-    //std::string citation;
+    std::string citation;
     std::vector<std::string> author_given_name;
     std::vector<std::string> author_family_name;
     std::vector<std::string> reference;
@@ -30,7 +30,7 @@ struct get_info
     void get_author();
     void get_reference();
     void get_from_doi(std::string input_doi);
-    std::string get_citation();
+    void get_citation();
 
     private:
       Document paper_info;
