@@ -16,8 +16,8 @@ struct get_info
     int day               =-1;
     std::string journal   ="";
     std::string publisher ="";
-    std::string first;
-    std::string citation;
+    std::string first     ="";
+    std::string citation  ="";
     std::vector<std::string> author_given_name;
     std::vector<std::string> author_family_name;
     std::vector<std::string> reference;
