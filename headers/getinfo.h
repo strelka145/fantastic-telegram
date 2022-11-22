@@ -2,18 +2,20 @@
 #define GET_INFO
 #include <string>
 #include <vector>
-#include "headers/include/rapidjson/document.h"
+#include "include/rapidjson/document.h"
+
+using namespace rapidjson;
 struct get_info
 {
-    std::string url;
-    std::string doi;
-    std::string abstract;
-    std::string title;
-    int year;
-    int month;
-    int day;
-    std::string journal;
-    std::string publisher;
+    std::string url       ="";
+    std::string doi       ="";
+    std::string abstract  ="";
+    std::string title     ="";
+    int year              =-1;
+    int month             =-1;
+    int day               =-1;
+    std::string journal   ="";
+    std::string publisher ="";
     std::string first;
     std::string citation;
     std::vector<std::string> author_given_name;
@@ -30,11 +32,10 @@ struct get_info
     void get_author();
     void get_reference();
     void get_from_doi(std::string input_doi);
-    void get_citation();
+    void get_citation(std::string style);
+    std::string html;
+    Document paper_info;
 
-    private:
-      Document paper_info;
-      std::string html;
 };
 
 struct option_arg {

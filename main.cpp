@@ -1,4 +1,3 @@
-#include <unistd.h>
 #include <iostream>
 #include <string>
 #include <ext/stdio_filebuf.h>
@@ -36,6 +35,7 @@ int main(int argc, char* argv[]){
 
   int c, option_index;
   get_info paper;
+  std::string style;
   std::vector<char> output_list;
   while (true){
     option_index = 0;
@@ -57,6 +57,11 @@ int main(int argc, char* argv[]){
           paper.doi=optarg;
           paper.get_from_doi(paper.doi);
           output_list.erase(output_list.end() - 1);
+        }
+        break;
+      case 'c':
+        if(optarg){
+          style=optarg;
         }
         break;
       case '?':
@@ -120,7 +125,7 @@ int main(int argc, char* argv[]){
         std::cout << paper.publisher << '\n';
         break;
       case 'c':
-        paper.get_citation();
+        paper.get_citation(style);
         std::cout << paper.citation << '\n';
         break;
       case 'r':
