@@ -5,6 +5,7 @@
 #include <iostream>
 #include <ext/stdio_filebuf.h>
 #include <cstdlib>
+#include <curl/curl.h>
 #include <regex>
 
 using namespace rapidjson;
